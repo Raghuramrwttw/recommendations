@@ -1,0 +1,28 @@
+<!-- recommendation.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Recommendation</title>
+</head>
+<body>
+    <h1>Select a Product:</h1>
+    <form method="POST", action="{% url 'shop:recommend' %}">
+        {% csrf_token %}
+        <select name="product_id">
+            {% for product in products %}
+                <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Get Recommendations</button>
+    </form>
+    {% if recommended_products %}
+        <h2>Recommended Products:</h2>
+        <ul>
+            {% for product in recommended_products %}
+                <li>{{ product.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
