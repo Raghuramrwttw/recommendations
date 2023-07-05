@@ -3,7 +3,7 @@ from cart.forms import CartAddProductForm
 from .models import Category, Product
 from .recommender import Recommender
 from rest_framework import generics
-from .serializers import CategorySerializer, ProductSerializer
+from .serializers import CategorySerializer, ProductIdSerializer
 from rest_framework.response import Response
 
 
@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Category, Product
 from .recommender import Recommender
-from .serializers import CategorySerializer, ProductSerializer
+from .serializers import CategorySerializer, ProductIdSerializer
 
 class ProductListAPIView(APIView):
     def get(self, request, format=None):
@@ -69,6 +69,20 @@ class RecommendProductsAPIView(TemplateView):
             'recommended_products': recommended_products,
         }
         return self.render_to_response(context)
+
+
+from rest_framework.response import Response
+
+class recommendview(APIView):
+
+    def post(self, request, *args, **kwargs):
+            product_ids = request.data.get('product_ids', [])
+            r = Recommender()
+            recommended_products = r.suggest_products_for([Product.objects.get(id=product_ids)], 4)
+            return Response({"Message": recommended_products})
+
+
+
 
 
 

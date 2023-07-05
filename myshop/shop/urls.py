@@ -7,6 +7,7 @@ from .views import (
     RecommendedProductsAPIView,
     CategoryListAPIView,
     RecommendProductsAPIView,
+    recommendview
 )
 
 app_name = 'shop'
@@ -22,6 +23,8 @@ urlpatterns = [
 
 
     path('RecommendedProductsAPIView', RecommendedProductsAPIView.as_view()),
+
+    path('recommendview', recommendview.as_view()),
 
     path('CategoryListAPIView', CategoryListAPIView.as_view()),
     path('<slug:category_slug>/', views.product_list,
